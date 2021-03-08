@@ -193,7 +193,7 @@ on_help_expander_activate(GtkExpander *expander, gpointer user_data) {
     }
     // this obeys geometry constraints, so by requesting width/height of 1
     // the window actually get resized to its preferred size
-    gtk_window_resize(win, 1, 1);
+    gtk_window_set_default_size(win, -1, -1);
 }
 
 FsearchConfig *
