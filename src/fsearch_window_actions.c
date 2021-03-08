@@ -417,7 +417,7 @@ fsearch_window_action_close_window(GSimpleAction *action, GVariant *variant, gpo
     FsearchApplicationWindow *self = user_data;
     g_assert(FSEARCH_WINDOW_IS_WINDOW(self));
 
-    gtk_widget_destroy(GTK_WIDGET(self));
+    g_object_unref(GTK_WIDGET(self));
 }
 
 static void
@@ -452,13 +452,13 @@ fsearch_window_action_open_folder(GSimpleAction *action, GVariant *variant, gpoi
 static void
 fsearch_window_action_open_with_response_cb(GtkDialog *dialog, gint response_id, gpointer user_data) {
     if (response_id != GTK_RESPONSE_OK) {
-        gtk_widget_destroy(GTK_WIDGET(dialog));
+        g_object_unref(GTK_WIDGET(dialog));
         return;
     }
 
     FsearchApplicationWindow *self = user_data;
     GAppInfo *app_info = gtk_app_chooser_get_app_info(GTK_APP_CHOOSER(dialog));
-    gtk_widget_destroy(GTK_WIDGET(dialog));
+    g_object_unref(GTK_WIDGET(dialog));
 
     launch_selection_for_app_info(self, app_info);
 

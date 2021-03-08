@@ -503,7 +503,7 @@ preferences_ui_launch(FsearchConfig *config,
     help_stack = NULL;
 
     g_object_unref(builder);
-    gtk_widget_destroy(dialog);
+    g_object_unref(dialog);
 
     *update_db = pref.update_db;
     *update_list = pref.update_list;

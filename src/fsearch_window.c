@@ -1151,13 +1151,13 @@ on_fsearch_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user
                                                  _("Closing the window isn't possible right now.\nPlease wait a "
                                                    "moment and then try again."));
         gtk_dialog_run(GTK_DIALOG(dialog));
-        gtk_widget_destroy(dialog);
+        g_object_unref(dialog);
 
         trace("[window] search is pending, window close blocked\n");
         return TRUE;
     }
     fsearch_application_window_prepare_shutdown(win);
-    gtk_widget_destroy(widget);
+    g_object_unref(widget);
     return TRUE;
 }
 
