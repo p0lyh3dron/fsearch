@@ -715,11 +715,11 @@ on_listview_button_press_event(GtkWidget *widget, GdkEvent *event, gpointer user
     g_return_val_if_fail(user_data != NULL, FALSE);
     g_return_val_if_fail(event != NULL, FALSE);
 
-    GdkWindow *window = gdk_event_get_window(event);
-    if (G_UNLIKELY(window != gtk_tree_view_get_bin_window(GTK_TREE_VIEW(widget)))) {
-        // clicked outside of list (e.g. column header)
-        return FALSE;
-    }
+    // GdkWindow *window = gdk_event_get_window(event);
+    // if (G_UNLIKELY(window != gtk_tree_view_get_bin_window(GTK_TREE_VIEW(widget)))) {
+    //    // clicked outside of list (e.g. column header)
+    //    return FALSE;
+    //}
 
     GdkEventType type = gdk_event_get_event_type(event);
     if (type == GDK_BUTTON_PRESS) {
@@ -728,23 +728,23 @@ on_listview_button_press_event(GtkWidget *widget, GdkEvent *event, gpointer user
             return TRUE;
         }
     }
-    else if (type == GDK_2BUTTON_PRESS) {
-        if (window == gtk_tree_view_get_bin_window(GTK_TREE_VIEW(widget))) {
-            // GtkTreeViewColumn *column = NULL;
-            // GtkTreePath *path = NULL;
-            // gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (widget),
-            //                               event->x,
-            //                               event->y,
-            //                               &path,
-            //                               &column,
-            //                               NULL,
-            //                               NULL);
-            // if (path) {
-            //    gtk_tree_path_free(path);
-            //}
-            return TRUE;
-        }
-    }
+    // else if (type == GDK_2BUTTON_PRESS) {
+    //    if (window == gtk_tree_view_get_bin_window(GTK_TREE_VIEW(widget))) {
+    //        // GtkTreeViewColumn *column = NULL;
+    //        // GtkTreePath *path = NULL;
+    //        // gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (widget),
+    //        //                               event->x,
+    //        //                               event->y,
+    //        //                               &path,
+    //        //                               &column,
+    //        //                               NULL,
+    //        //                               NULL);
+    //        // if (path) {
+    //        //    gtk_tree_path_free(path);
+    //        //}
+    //        return TRUE;
+    //    }
+    //}
 
     return FALSE;
 }

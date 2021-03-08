@@ -322,7 +322,7 @@ fsearch_window_action_after_file_open(bool action_mouse) {
             g_application_quit(G_APPLICATION(FSEARCH_APPLICATION_DEFAULT));
         }
         else if (config->action_after_file_open == ACTION_AFTER_OPEN_MINIMIZE) {
-            gtk_window_iconify(gtk_application_get_active_window(GTK_APPLICATION(FSEARCH_APPLICATION_DEFAULT)));
+            gtk_window_minimize(gtk_application_get_active_window(GTK_APPLICATION(FSEARCH_APPLICATION_DEFAULT)));
         }
     }
 }
