@@ -458,8 +458,9 @@ preferences_ui_launch(FsearchConfig *config,
             pref.update_db = true;
         }
 
-        if ((exclude_files_str && strcmp(exclude_files_str, gtk_entry_get_text(exclude_files_entry))) ||
-            (!exclude_files_str && strlen(gtk_entry_get_text(exclude_files_entry)) > 0)) {
+        if ((exclude_files_str &&
+             strcmp(exclude_files_str, gtk_entry_buffer_get_text(gtk_entry_get_buffer(exclude_files_entry)))) ||
+            (!exclude_files_str && strlen(gtk_entry_buffer_get_text(gtk_entry_get_buffer(exclude_files_entry))) > 0)) {
             pref.update_db = true;
         }
 
@@ -473,7 +474,8 @@ preferences_ui_launch(FsearchConfig *config,
                 g_strfreev(pref.config->exclude_files);
                 pref.config->exclude_files = NULL;
             }
-            pref.config->exclude_files = g_strsplit(gtk_entry_get_text(exclude_files_entry), ";", -1);
+            pref.config->exclude_files =
+                g_strsplit(gtk_entry_buffer_get_text(gtk_entry_get_buffer(exclude_files_entry)), ";", -1);
         }
 
         if (pref.config->locations) {

@@ -259,9 +259,8 @@ fsearch_apply_menubar_config(FsearchApplicationWindow *win) {
         gtk_window_set_title(GTK_WINDOW(win), g_get_application_name());
 
         g_object_ref(G_OBJECT(win->search_box));
-        gtk_container_remove(GTK_CONTAINER(win->headerbar_box), win->search_box);
-        gtk_box_pack_start(GTK_BOX(win->menu_box), win->search_box, TRUE, TRUE, 0);
-        gtk_box_reorder_child(GTK_BOX(win->menu_box), win->search_box, 0);
+        gtk_box_remove(GTK_BOX(win->headerbar_box), win->search_box);
+        gtk_box_prepend(GTK_BOX(win->menu_box), win->search_box);
         g_object_unref(G_OBJECT(win->search_box));
     }
     else {
@@ -479,7 +478,8 @@ update_model_cb(gpointer user_data) {
     remove_model_from_list(win);
     db_search_results_clear(win->search);
 
-    const gchar *text = gtk_entry_get_text(GTK_ENTRY(win->search_entry));
+    GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(win->search_entry));
+    const gchar *text = gtk_entry_buffer_get_text(buffer);
     uint32_t num_results = 0;
     if (db == result->db) {
         GPtrArray *results = result->results;
@@ -577,7 +577,8 @@ perform_search(FsearchApplicationWindow *win) {
 
     win->num_searches_active++;
 
-    const gchar *text = gtk_entry_get_text(GTK_ENTRY(win->search_entry));
+    GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(win->search_entry));
+    const gchar *text = gtk_entry_buffer_get_text(buffer);
     trace("[search] %s\n", text);
     uint32_t max_results = config->limit_results ? config->num_results : 0;
 
@@ -657,56 +658,56 @@ on_listview_key_press_event(GtkWidget *widget, GdkEvent *event, gpointer user_da
     guint keyval;
     GdkModifierType state;
 
-    gdk_event_get_state(event, &state);
-    gdk_event_get_keyval(event, &keyval);
+    // gdk_event_get_state(event, &state);
+    // gdk_event_get_keyval(event, &keyval);
 
-    if ((state & default_modifiers) == (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) {
-        switch (keyval) {
-        case GDK_KEY_C:
-            g_action_group_activate_action(group, "copy_filepath_clipboard", NULL);
-            return TRUE;
-        default:
-            return FALSE;
-        }
-    }
-    else if ((state & default_modifiers) == GDK_CONTROL_MASK) {
-        switch (keyval) {
-        case GDK_KEY_Return:
-        case GDK_KEY_KP_Enter:
-            g_action_group_activate_action(group, "open_folder", NULL);
-            return TRUE;
-        case GDK_KEY_c:
-            g_action_group_activate_action(group, "copy_clipboard", NULL);
-            return TRUE;
-        case GDK_KEY_x:
-            g_action_group_activate_action(group, "cut_clipboard", NULL);
-            return TRUE;
-        default:
-            return FALSE;
-        }
-    }
-    else if ((state & default_modifiers) == GDK_SHIFT_MASK) {
-        switch (keyval) {
-        case GDK_KEY_Delete:
-            g_action_group_activate_action(group, "delete_selection", NULL);
-            return TRUE;
-        default:
-            return FALSE;
-        }
-    }
-    else {
-        switch (keyval) {
-        case GDK_KEY_Delete:
-            g_action_group_activate_action(group, "move_to_trash", NULL);
-            return TRUE;
-        case GDK_KEY_Return:
-        case GDK_KEY_KP_Enter:
-            g_action_group_activate_action(group, "open", NULL);
-            return TRUE;
-        default:
-            return FALSE;
-        }
-    }
+    // if ((state & default_modifiers) == (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) {
+    //    switch (keyval) {
+    //    case GDK_KEY_C:
+    //        g_action_group_activate_action(group, "copy_filepath_clipboard", NULL);
+    //        return TRUE;
+    //    default:
+    //        return FALSE;
+    //    }
+    //}
+    // else if ((state & default_modifiers) == GDK_CONTROL_MASK) {
+    //    switch (keyval) {
+    //    case GDK_KEY_Return:
+    //    case GDK_KEY_KP_Enter:
+    //        g_action_group_activate_action(group, "open_folder", NULL);
+    //        return TRUE;
+    //    case GDK_KEY_c:
+    //        g_action_group_activate_action(group, "copy_clipboard", NULL);
+    //        return TRUE;
+    //    case GDK_KEY_x:
+    //        g_action_group_activate_action(group, "cut_clipboard", NULL);
+    //        return TRUE;
+    //    default:
+    //        return FALSE;
+    //    }
+    //}
+    // else if ((state & default_modifiers) == GDK_SHIFT_MASK) {
+    //    switch (keyval) {
+    //    case GDK_KEY_Delete:
+    //        g_action_group_activate_action(group, "delete_selection", NULL);
+    //        return TRUE;
+    //    default:
+    //        return FALSE;
+    //    }
+    //}
+    // else {
+    //    switch (keyval) {
+    //    case GDK_KEY_Delete:
+    //        g_action_group_activate_action(group, "move_to_trash", NULL);
+    //        return TRUE;
+    //    case GDK_KEY_Return:
+    //    case GDK_KEY_KP_Enter:
+    //        g_action_group_activate_action(group, "open", NULL);
+    //        return TRUE;
+    //    default:
+    //        return FALSE;
+    //    }
+    //}
     return FALSE;
 }
 

@@ -503,7 +503,7 @@ fsearch_window_action_focus_search(GSimpleAction *action, GVariant *variant, gpo
 static void
 fsearch_window_action_hide_window(GSimpleAction *action, GVariant *variant, gpointer user_data) {
     FsearchApplicationWindow *self = user_data;
-    gtk_window_iconify(GTK_WINDOW(self));
+    gtk_window_minimize(GTK_WINDOW(self));
 }
 
 static void
